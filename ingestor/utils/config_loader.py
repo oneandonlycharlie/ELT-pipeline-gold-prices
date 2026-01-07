@@ -9,7 +9,7 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[logging.StreamHandler(sys.stdout)])
 
-env_path = Path(__file__).resolve().parent.parent / '.env'
+env_path = Path(__file__).resolve().parent.parent.parent / '.env'
 if env_path.exists():
     load_dotenv(dotenv_path=env_path)
     logging.info(f"Loaded environment variables from {env_path}")
