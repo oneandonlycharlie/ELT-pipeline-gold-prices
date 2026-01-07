@@ -3,7 +3,6 @@ import yfinance as yf
 import pandas as pd
 import time
 import sys
-from azure.storage.filedatalake import DataLakeFileClient
 from utils.config_loader import get_db_config, get_pipeline_config
 from datetime import datetime, timedelta
 
@@ -43,28 +42,6 @@ def fetch_data(pipeline_cfg) -> pd.DataFrame | None:
             else:
                 logging.error(f"Fetching data for {pipeline_cfg["TICKER"]} failed after {pipeline_cfg["MAX_RETRIES"]} attempts.")
                 return None
-            
-def upload_data(data: pd.DataFrame, db_config, pipeline_cfg) -> bool:
-    if pipeline_cfg["DATA_EXTRACTION_DATE"]:
-        logging.info(f"Uploading data for specific date: {pipeline_cfg["DATA_EXTRACTION_DATE"]}")
-        file_path = f"rawdata/data_{pipeline_cfg["DATA_EXTRACTION_DATE"]}.csv"
-    else:
-        logging.info("Uploading data for the full date range.")
-        file_path = pipeline_cfg["FILE_PATH"]
-    try:
-        file = DataLakeFileClient.from_connection_string(
-            db_config["AZURE_STORAGE_CONNECTION_STRING"], 
-            file_system_name=pipeline_cfg["FILE_SYSTEM_NAME"],
-            file_path=file_path)
-        csv_data = data.to_csv()
-        
-        file.create_file()
-        file.append_data(csv_data, offset=0, length=len(csv_data))
-        file.flush_data(len(csv_data))
-        print(f"Successfully uploaded data to in Azure Data Lake.")
-        return True
-    except Exception as e:
-        logging.error(f"Failed to upload data to Azure Data Lake: {e}")
     
 if __name__ == "__main__":
     pipeline_cfg = get_pipeline_config()
@@ -73,7 +50,5 @@ if __name__ == "__main__":
     if data is not None and not data.empty:
         print("Raw data overview:   ")
         print(data.head())
-        db_config = get_db_config()
-        upload_data(data, db_config, pipeline_cfg)
     else:
         print("No data fetched.")
