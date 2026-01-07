@@ -1,0 +1,6 @@
+yfinance>=0.2.40    # Used for fetching historical price data, add --upgrade --no-cache-dir flags to avoid caching issues
+pandas==2.1.4         # Core data processing library 
+psycopg2-binary==2.9.9 # PostgreSQL database driver
+python-dotenv==1.0.0  # Used for environment vatiables 
+azure-storage-file-datalake ==12.22.0 # Azure Data Lake Storage SDK
+dotenv==0.1.1         # For loading environment variables from .env files
