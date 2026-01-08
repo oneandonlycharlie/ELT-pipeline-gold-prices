@@ -5,8 +5,8 @@ import os
 
 def upload_data(data: pd.DataFrame, db_config, pipeline_cfg) -> bool:
     if pipeline_cfg["DATA_EXTRACTION_DATE"]:
-        logging.info(f"Uploading data for specific date: {pipeline_cfg["DATA_EXTRACTION_DATE"]}")
-        file_path = f"rawdata/data_{pipeline_cfg["DATA_EXTRACTION_DATE"]}.csv"
+        logging.info(f"Uploading data for specific date: {pipeline_cfg['DATA_EXTRACTION_DATE']}")
+        file_path = f"rawdata/data_{pipeline_cfg['DATA_EXTRACTION_DATE']}.csv"
     else:
         logging.info("Uploading data for the full date range.")
         file_path = pipeline_cfg["FILE_PATH"]
@@ -27,8 +27,8 @@ def upload_data(data: pd.DataFrame, db_config, pipeline_cfg) -> bool:
 
 def download_data(db_config, pipeline_cfg) -> pd.DataFrame:
     if pipeline_cfg["DATA_EXTRACTION_DATE"]:
-        local_file_path = f"/tmp/downloaded_data_{pipeline_cfg["DATA_EXTRACTION_DATE"]}.csv"
-        file_path = f"rawdata/data_{pipeline_cfg["DATA_EXTRACTION_DATE"]}.csv"
+        local_file_path = f"/tmp/downloaded_data_{pipeline_cfg['DATA_EXTRACTION_DATE']}.csv"
+        file_path = f"rawdata/data_{pipeline_cfg['DATA_EXTRACTION_DATE']}.csv"
     else:
         file_path = pipeline_cfg["FILE_PATH"]
         local_file_path = "/tmp/downloaded_data.csv"

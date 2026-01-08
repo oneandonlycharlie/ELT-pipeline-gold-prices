@@ -1,12 +1,12 @@
 import logging
 import pandas as pd
-from utils.config_loader import get_db_config, get_pipeline_config
-from azure_storage_manager import download_data
+from ingestor.utils.config_loader import get_db_config, get_pipeline_config
+from ingestor.azure_storage_manager import download_data
 import psycopg2
 from psycopg2 import extras
 from typing import Dict
 import sys
-from utils.db_connector import connect_to_db
+from ingestor.utils.db_connector import connect_to_db
 
 DIM_ASSET_NAME = '"public"."dim_asset"'
 DIM_METRIC_NAME = '"public"."dim_metric"'

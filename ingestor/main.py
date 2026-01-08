@@ -1,7 +1,7 @@
 import logging
 import sys
 import argparse
-from utils.config_loader import get_pipeline_config, get_db_config
+from ingestor.utils.config_loader import get_pipeline_config, get_db_config
 from ingestor.api_fetcher import fetch_data
 from ingestor.azure_storage_manager import upload_data, download_data
 from ingestor.data_loader import standardize_and_clean, load_raw_data
@@ -30,15 +30,15 @@ def run_elt_pipeline():
     if args.date:
         pipeline_cfg["DATA_EXTRACTION_DATE"] = args.date
         is_full_refresh = False 
-        logging.info(f"Data extraction date set from command line argument: {pipeline_cfg["DATA_EXTRACTION_DATE"]}")
+        logging.info(f"Data extraction date set from command line argument: {pipeline_cfg['DATA_EXTRACTION_DATE']}")
     else:
         is_full_refresh = True
 
     # Extract
     logging.info("\n--- STEP 1: Starting Data Extraction (E) ---")
     if pipeline_cfg["DATA_EXTRACTION_DATE"]:
-        logging.info(f"Extracting data for specific date: {pipeline_cfg["DATA_EXTRACTION_DATE"]}")
-        pipeline_cfg["FILE_PATH"] = f"rawdata/data_{pipeline_cfg["DATA_EXTRACTION_DATE"]}.csv"
+        logging.info(f"Extracting data for specific date: {pipeline_cfg['DATA_EXTRACTION_DATE']}")
+        pipeline_cfg["FILE_PATH"] = f"rawdata/data_{pipeline_cfg['DATA_EXTRACTION_DATE']}.csv"
     else:
         logging.info("Extracting data for the full date range.")
 
@@ -65,7 +65,6 @@ def run_elt_pipeline():
         loading_success = load_raw_data(cleaned_df, conn)   
         if loading_success:
             logging.info("Success at loading raw gold prices")
-            return
     finally:
         conn.close()
     
