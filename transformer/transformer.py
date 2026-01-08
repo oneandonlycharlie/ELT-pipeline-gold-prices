@@ -177,10 +177,12 @@ def run_transformer(is_full_refresh: bool = False):
         metric_map = get_metric_map(conn)
         
         load_fact_calculated_metrics(conn, df_calc_slice, metric_map)
-    except Exception as e:
-        logging.critical(f"Critical error in transformer pipeline: {e}")  
-    finally:
         conn.close()
+        return True
+    except Exception as e:
+        logging.critical(f"Critical error in transformer pipeline: {e}")
+        conn.close()
+        return False  
         
 if __name__ == "__main__":
-    run_transformer(is_full_refresh=True)              
+    run_transformer(is_full_refresh=False)              
