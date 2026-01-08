@@ -11,7 +11,6 @@ DB_CONFIG = {
     'dbname': config["DB_NAME"],
     'sslmode': 'require'
 }
-print(DB_CONFIG)
 def connect_to_db() -> psycopg2.extensions.connection | None:
     logging.info("Attempting to connect to the database...")
     try:

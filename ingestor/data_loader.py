@@ -83,6 +83,7 @@ def load_raw_data(df: pd.DataFrame, conn) -> bool:
         if not load_price_success:
             logging.error("Failed to load raw prices. Aborting load.")
             return False
+        return True
     except Exception as e:
         logging.critical(f"Unexpected error during raw data load: {e}")
         return False

@@ -20,7 +20,7 @@ def upload_data(data: pd.DataFrame, db_config, pipeline_cfg) -> bool:
         file.create_file()
         file.append_data(csv_data, offset=0, length=len(csv_data))
         file.flush_data(len(csv_data))
-        print(f"Successfully uploaded data to in Azure Data Lake.")
+        logging.info(f"Successfully uploaded data to in Azure Data Lake.")
         return True
     except Exception as e:
         logging.error(f"Failed to upload data to Azure Data Lake: {e}")
