@@ -29,7 +29,7 @@ def run_elt_pipeline():
     is_full_refresh = args.full
     if args.date:
         pipeline_cfg["DATA_EXTRACTION_DATE"] = args.date
-        is_full_refresh = False # 如果指定了日期，强制进入增量模式
+        is_full_refresh = False 
         logging.info(f"Data extraction date set from command line argument: {pipeline_cfg["DATA_EXTRACTION_DATE"]}")
     else:
         is_full_refresh = True
