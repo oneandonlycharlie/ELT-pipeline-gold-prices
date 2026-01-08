@@ -1,5 +1,6 @@
 import logging
 import sys
+import argparse
 from utils.config_loader import get_pipeline_config, get_db_config
 from ingestor.api_fetcher import fetch_data
 from ingestor.azure_storage_manager import upload_data, download_data
@@ -19,10 +20,16 @@ def run_elt_pipeline():
     logging.info("🚀 Starting Gold Price ELT Pipeline Execution")
     
     logging.info("Checking data extraction date")
-    if sys.argv and len(sys.argv) > 1:
-        is_full_refresh = False
-        target_date = sys.argv[1]
-        pipeline_cfg["DATA_EXTRACTION_DATE"] = target_date
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--date", help="Specific date for incremental load (YYYY-MM-DD)")
+    parser.add_argument("--full", action="store_true", help="Run full history refresh")
+    args = parser.parse_args()
+
+    is_full_refresh = args.full
+    if args.date:
+        pipeline_cfg["DATA_EXTRACTION_DATE"] = args.date
+        is_full_refresh = False # 如果指定了日期，强制进入增量模式
         logging.info(f"Data extraction date set from command line argument: {pipeline_cfg["DATA_EXTRACTION_DATE"]}")
     else:
         is_full_refresh = True
