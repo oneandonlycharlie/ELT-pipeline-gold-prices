@@ -1,6 +1,6 @@
 import psycopg2
 import logging
-from utils.config_loader import get_db_config
+from ingestor.utils.config_loader import get_db_config
 
 config = get_db_config()
 DB_CONFIG = {
