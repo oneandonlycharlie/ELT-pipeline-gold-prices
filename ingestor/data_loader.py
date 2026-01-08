@@ -67,9 +67,9 @@ def load_raw_data(df: pd.DataFrame, conn) -> bool:
             logging.error("Failed to load date dimension. Aborting load.")
             return False
         
-        metric_map = load_dim_metric(conn)
-        if not metric_map:
-            logging
+        load_metric_success = load_dim_metric(conn)
+        if not load_metric_success:
+            logging.error("Failed to load metric dimension. Aborting load.")
             return False
 
         current_ticker = df['ticker'].iloc[0] 
@@ -77,6 +77,7 @@ def load_raw_data(df: pd.DataFrame, conn) -> bool:
         if asset_key is None:
             logging.error("Failed to get asset_key. Aborting load.")
             return False
+        
         df['asset_key'] = asset_key     
         load_price_success = load_fact_raw_prices(conn, df)
         if not load_price_success:
@@ -141,10 +142,10 @@ def load_dim_metric(conn: psycopg2.extensions.connection) -> Dict[str, int]:
                 metric_key = cur.fetchone()[0]
                 metric_map[name] = metric_key
         logging.info(f"Loaded {len(metric_map)} metrics into {DIM_METRIC_NAME}.")
-        return metric_map
+        return True
     except Exception as e:
         logging.critical(f"Error loading {DIM_METRIC_NAME}: {e}")
-        return {} 
+        return False
     
 def load_fact_raw_prices(conn: psycopg2.extensions.connection, df_raw: pd.DataFrame) -> bool:
     logging.info(f"Loading raw prices into {FACT_RAW_NAME}.")
