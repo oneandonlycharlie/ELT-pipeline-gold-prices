@@ -2,7 +2,7 @@
 # Gold Price ELT Pipeline on Azure
 
 * What is it - I built this as an end-to-end, automated data pipeline to extract, persist, and model gold price price data. It follows an ELT (Extract-Load-Transform) architecture to fetch daily gold prices and derivative metrics.
-* Why built it - As an investor myself, I have a natual interest in tapping into both historical and incremental data of the gold market. So I built this pipelien to keep track of them.
+* Why built it - As an investor myself, I have a natual interest in tapping into both historical and incremental data of the gold market. So I built this pipeline to keep track of them.
 * How it's built - The project emphasizes **Star Schema Design**, **modular Python ETL engineering**, **containerization with docker** and serverless orchestration on **Microsoft Azure**.
 
 ## **🏗️ Architecture & Data Modeling**
